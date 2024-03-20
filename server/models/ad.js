@@ -24,4 +24,4 @@ const adSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Ad', adSchema);
+export default mongoose.model('Ad', adSchema);

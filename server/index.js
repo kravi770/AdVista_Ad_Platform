@@ -6,6 +6,7 @@ import Router from './routes/userRoutes.js';
 import connection from './database/db.js';
 import authRoute from './routes/auth.js';
 import businessRoute from './routes/businessRoutes.js';
+import viewerRoute from './routes/viewerRoutes.js';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use('/api/user', authRoute);
 app.use('/api/business', businessRoute);
+app.use('/api/viewer',viewerRoute);
 app.use('/', Router);
 
 const username = process.env.DB_USERNAME;

@@ -31,7 +31,7 @@ export const loginUser = async (req, res) => {
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (isMatch) {
       const accessToken = jwt.sign(
-        { userId: user._id },
+        { USER: user },
         process.env.ACCESS_TOKEN_SECRET
       );
       res.status(200).json({ accessToken: accessToken, user: user });
@@ -46,7 +46,8 @@ export const loginUser = async (req, res) => {
 //ad-controller
 export const submitAd = async (req, res) => {
   const { imageURL, title ,content, target1, target2, target3 } = req.body;
-  const businessId = req.user.userId;
+  const businessId = req.user.USER._id;
+  // console.log(req.user);
   //   console.log(
   //     'content:',
   //     content,
@@ -61,8 +62,8 @@ export const submitAd = async (req, res) => {
   //   );
   try {
     const newAd = new Ad({
-      imageURL,
       title,
+      imageURL,
       content,
       target1,
       target2,
@@ -73,5 +74,22 @@ export const submitAd = async (req, res) => {
     res.status(201).json({ message: 'Ad created successfully', ad });
   } catch {
     res.status(500).json({ message: 'Error creating Ad.' });
+  }
+};
+
+export const getAds = async (req, res) => {
+  try{
+    const viewerTargets = req.user.USER.targets;
+    const requiredAds = await Ad.find({
+      $or: [
+        { target1: { $in: viewerTargets } },
+        { target2: { $in: viewerTargets } },
+        { target3: { $in: viewerTargets } },
+      ],
+    });
+    res.status(200).json({ ads: requiredAds });
+  }
+  catch(err){
+    res.status(500).json({ message: err.message });
   }
 };

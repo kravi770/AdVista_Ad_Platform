@@ -1,11 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
+import { ChakraProvider } from '@chakra-ui/react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './components/Form/Home';
 
 function App() {
   return (
-    <div className="App">
-      <h1>React App</h1>
-    </div>
+    <ChakraProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
+    </ChakraProvider>
   );
 }
 

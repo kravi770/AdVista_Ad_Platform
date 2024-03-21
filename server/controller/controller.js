@@ -45,7 +45,7 @@ export const loginUser = async (req, res) => {
 
 //ad-controller
 export const submitAd = async (req, res) => {
-  const { content, target1, target2, target3 } = req.body;
+  const { imageURL, title ,content, target1, target2, target3 } = req.body;
   const businessId = req.user.userId;
   //   console.log(
   //     'content:',
@@ -61,6 +61,8 @@ export const submitAd = async (req, res) => {
   //   );
   try {
     const newAd = new Ad({
+      imageURL,
+      title,
       content,
       target1,
       target2,

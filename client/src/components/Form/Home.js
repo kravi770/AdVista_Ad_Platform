@@ -10,6 +10,8 @@ import {
   Heading,
   Image,
   Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -31,6 +33,8 @@ import { login, register } from '../../service/api';
 
 const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
   const {
     isOpen: isSignupOpen,
     onOpen: onSignupOpen,
@@ -148,12 +152,26 @@ const Home = () => {
             </FormControl>
             <FormControl isRequired mt={4}>
               <FormLabel>Password</FormLabel>
-              <Input
+              {/* <Input
                 placeholder="Enter your password"
                 name="password"
                 type="string"
                 onChange={(e) => handleLoginInputChange(e)}
-              />
+              /> */}
+              <InputGroup size="md">
+                <Input
+                  pr="4.5rem"
+                  type={show ? 'text' : 'password'}
+                  placeholder="Enter your password"
+                  name="password"
+                  onChange={(e) => handleLoginInputChange(e)}
+                />
+                <InputRightElement width="4.5rem">
+                  <Button h="1.75rem" size="sm" onClick={handleClick}>
+                    {show ? 'Hide' : 'Show'}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
           </ModalBody>
 
@@ -199,12 +217,20 @@ const Home = () => {
             </FormControl>
             <FormControl isRequired mt={4}>
               <FormLabel>Password</FormLabel>
-              <Input
-                placeholder="Enter your password"
-                type="string"
-                name="password"
-                onChange={(e) => handleSignupInputChange(e)}
-              />
+              <InputGroup size="md">
+                <Input
+                  pr="4.5rem"
+                  type={show ? 'text' : 'password'}
+                  placeholder="Enter your password"
+                  name="password"
+                  onChange={(e) => handleLoginInputChange(e)}
+                />
+                <InputRightElement width="4.5rem">
+                  <Button h="1.75rem" size="sm" onClick={handleClick}>
+                    {show ? 'Hide' : 'Show'}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
             <FormControl isRequired mt={4}>
               <FormLabel>Account Type</FormLabel>

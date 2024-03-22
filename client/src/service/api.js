@@ -74,3 +74,19 @@ export const getAds = async () => {
     return error.response.data;
   }
 };
+
+export const getAdsByBusinessId = async () => {
+  try {
+    const response = await axios.get(`${URL}/business/ads`, {
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`,
+      },
+    });
+    if (response.status !== 200) {
+      throw new Error('Network response was not ok');
+    }
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

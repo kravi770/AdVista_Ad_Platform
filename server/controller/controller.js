@@ -48,6 +48,9 @@ export const loginUser = async (req, res) => {
 
 //ad-controller
 export const submitAd = async (req, res) => {
+  if (req.user.USER.type !== 'business') {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
   const { imageURL, title, content, target1, target2, target3 } = req.body;
   const businessId = req.user.USER._id;
   // console.log(req.user);
@@ -82,6 +85,8 @@ export const submitAd = async (req, res) => {
 };
 
 export const getAds = async (req, res) => {
+  if (req.user.USER.type !== 'viewer')
+    return res.status(401).json({ message: 'Unauthorized' });
   try {
     const viewerTargets = req.user.USER.targets;
     const requiredAds = await Ad.find({
@@ -100,6 +105,17 @@ export const getAds = async (req, res) => {
 export const getUser = (req, res) => {
   try {
     return res.status(200).json({ user: req.user.USER });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const getAdsByBusinessId = async (req, res) => {
+  if (req.user.USER.type !== 'business')
+    return res.status(401).json({ message: 'Unauthorized' });
+  try {
+    const ads = await Ad.find({ businessId: req.user.USER._id });
+    res.status(200).json({ ads });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

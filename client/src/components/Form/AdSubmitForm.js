@@ -12,10 +12,13 @@ import {
   Flex,
   Spacer,
   Heading,
+  ButtonGroup,
 } from '@chakra-ui/react';
 import { submitAd } from '../../service/api';
+import { useNavigate } from 'react-router-dom';
 
 const BusinessAdForm = () => {
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
     title: '',
     imageURL: '',
@@ -35,7 +38,10 @@ const BusinessAdForm = () => {
     e.preventDefault();
     // console.log(formValues);
   };
-
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    navigate('/');
+  };
   const handleFormSubmit = async (ad) => {
     // const response =
     await submitAd(ad);
@@ -49,12 +55,21 @@ const BusinessAdForm = () => {
       ></link>
       <Flex minWidth="max-content" alignItems="center" gap="2" marginTop={3}>
         <Spacer />
+        <Spacer />
         <Box p="2">
           <Heading size="xl" fontFamily={'Prata'}>
             Create Your Ad
           </Heading>
         </Box>
         <Spacer />
+        <ButtonGroup gap="2" marginRight={5}>
+          <Button colorScheme="teal" onClick={() => navigate('/business/ads')}>
+            My Ads
+          </Button>
+          <Button colorScheme="red" onClick={handleLogout}>
+            Logout
+          </Button>
+        </ButtonGroup>
       </Flex>
       <Center>
         <Box width="55%" marginTop="5">

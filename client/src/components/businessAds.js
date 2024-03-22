@@ -17,9 +17,9 @@ import {
   Center,
   ButtonGroup,
 } from '@chakra-ui/react';
-import { EditIcon } from '@chakra-ui/icons';
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
-import { getAdsByBusinessId } from '../service/api';
+import { deleteAd, getAdsByBusinessId } from '../service/api';
 
 const BusinessAds = () => {
   const [ads, setAds] = useState([]);
@@ -44,6 +44,15 @@ const BusinessAds = () => {
   };
   const handleEdit = (id) => {
     navigate(`/edit/${id}`);
+  };
+
+  const handleDelete = async (id) => {
+    await deleteAd(id);
+    const newAds = ads.filter((ad) => ad._id !== id);
+    setAds(newAds);
+    // if (response) {
+    //   console.log(response);
+    // }
   };
   return (
     // <Flex wrap="wrap" direction="row" justify="center" gap={6}>
@@ -102,6 +111,14 @@ const BusinessAds = () => {
                     size="sm"
                     colorScheme="teal"
                     onClick={() => handleEdit(ad._id)}
+                  />
+                  <IconButton
+                    aria-label="Delete ad"
+                    icon={<DeleteIcon />}
+                    size="sm"
+                    colorScheme="red"
+                    onClick={() => handleDelete(ad._id)}
+                    marginLeft={2}
                   />
                 </CardFooter>
               </Flex>

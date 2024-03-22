@@ -124,3 +124,19 @@ export const updateAd = async (ad) => {
     return error.response.data;
   }
 };
+
+export const deleteAd = async (id) => {
+  try {
+    const response = await axios.delete(`${URL}/business/ad/${id}`, {
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`,
+      },
+    });
+    if (response.status !== 200) {
+      throw new Error('Network response was not ok');
+    }
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

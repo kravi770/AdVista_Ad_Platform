@@ -147,3 +147,19 @@ export const updateAd = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const deleteAd = async (req, res) => {
+  if (req.user.USER.type !== 'business')
+    return res.status(401).json({ message: 'Unauthorized' });
+  try {
+    const ad = await Ad.findById(req.params.id);
+    if (ad.businessId.toString() === req.user.USER._id.toString()) {
+      await Ad.findByIdAndDelete(req.params.id);
+      res.status(200).json({ message: 'Ad deleted successfully' });
+    } else {
+      res.status(401).json({ message: 'Unauthorized' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

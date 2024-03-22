@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom';
 import home from '../../assets/home.jpg';
 import home1 from '../../assets/Designer_Home.png';
 import home2 from '../../assets/home2.jpg';
+import { login, register } from '../../service/api';
 
 const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -78,6 +79,17 @@ const Home = () => {
     }
   };
 
+  const handleLogin = async (loginuser) => {
+    // const response =
+    await login(loginuser);
+    // console.log(response);
+  };
+
+  const handleSignup = async (signupuser) => {
+    // const response =
+    await register(signupuser);
+    // console.log(response);
+  };
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
@@ -150,7 +162,7 @@ const Home = () => {
               colorScheme="blue"
               mr={3}
               type="submit"
-              onClick={() => console.log(loginuser)}
+              onClick={() => handleLogin(loginuser)}
             >
               Login
             </Button>
@@ -233,7 +245,7 @@ const Home = () => {
               colorScheme="blue"
               mr={3}
               type="submit"
-              onClick={() => console.log(signupuser)}
+              onClick={() => handleSignup(signupuser)}
             >
               Signup
             </Button>

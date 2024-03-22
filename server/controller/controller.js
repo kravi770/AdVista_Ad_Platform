@@ -6,6 +6,9 @@ import jwt from 'jsonwebtoken';
 // auth-controller
 export const signupUser = async (req, res) => {
   try {
+    if (User.findOne({ username: req.body.username })) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({
       username: req.body.username,
@@ -25,7 +28,7 @@ export const signupUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const user = await User.findOne({ username: req.body.username });
   if (user === null) {
-    return res.status(400).send('Cannot find user');
+    return res.status(400).json({ message: 'Incorrect username/password' });
   }
   try {
     const isMatch = await bcrypt.compare(req.body.password, user.password);
@@ -36,7 +39,7 @@ export const loginUser = async (req, res) => {
       );
       res.status(200).json({ accessToken: accessToken, user: user });
     } else {
-      res.status(401).send('Unauthorized');
+      res.status(401).json({ message: 'Incorrect username/password' });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });

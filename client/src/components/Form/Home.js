@@ -6,6 +6,7 @@ import {
   CheckboxGroup,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Image,
@@ -35,6 +36,8 @@ const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const [loginerror, setLoginError] = useState('');
+  const [signuperror, setSignupError] = useState('');
   const {
     isOpen: isSignupOpen,
     onOpen: onSignupOpen,
@@ -47,8 +50,11 @@ const Home = () => {
 
   const handleSignupInputChange = (e) => {
     setSignupUser({ ...signupuser, [e.target.name]: e.target.value });
-    console.log(signupuser);
+    // console.log(signupuser);
   };
+  const isSignupFormValid =
+    signupuser.username && signupuser.password && signupuser.type;
+  const isLoginFormValid = loginuser.username && loginuser.password;
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -56,15 +62,17 @@ const Home = () => {
   const resetSignupForm = () => {
     setSignupUser({});
     setCheckedValues([]);
+    setSignupError('');
   };
 
   const resetLoginForm = () => {
     setLoginUser({});
+    setLoginError('');
   };
 
   const handleLoginInputChange = (e) => {
     setLoginUser({ ...loginuser, [e.target.name]: e.target.value });
-    console.log(loginuser);
+    // console.log(loginuser);
   };
   useEffect(() => {
     setSignupUser((prevSignupUser) => ({
@@ -85,18 +93,27 @@ const Home = () => {
 
   const handleLogin = async (loginuser) => {
     const response = await login(loginuser);
-    // navigate()
-    if (response.user.type === 'viewer') {
-      navigate('/ads');
-    } else {
-      navigate('/submit-ad');
+    if (response.user) {
+      if (response.user.type === 'viewer') {
+        navigate('/ads');
+      } else {
+        navigate('/submit-ad');
+      }
+    } else if (response.message) {
+      setLoginError(response.message);
     }
-    console.log(response);
+    // console.log(response);
   };
 
   const handleSignup = async (signupuser) => {
     // const response =
-    await register(signupuser);
+    const response = await register(signupuser);
+    if (response.user) {
+      onSignupClose();
+      onOpen();
+    } else {
+      setSignupError(response.message);
+    }
     // console.log(response);
   };
   const initialRef = React.useRef(null);
@@ -152,6 +169,7 @@ const Home = () => {
                 placeholder="Enter your username"
                 name="username"
                 type="string"
+                value={loginuser.username}
                 onChange={(e) => handleLoginInputChange(e)}
               />
             </FormControl>
@@ -163,6 +181,7 @@ const Home = () => {
                   type={show ? 'text' : 'password'}
                   placeholder="Enter your password"
                   name="password"
+                  value={loginuser.password}
                   onChange={(e) => handleLoginInputChange(e)}
                 />
                 <InputRightElement width="4.5rem">
@@ -171,6 +190,11 @@ const Home = () => {
                   </Button>
                 </InputRightElement>
               </InputGroup>
+              {loginerror !== '' && (
+                <div style={{ color: 'red', marginTop: '2px' }}>
+                  {loginerror}
+                </div>
+              )}
             </FormControl>
           </ModalBody>
 
@@ -180,6 +204,7 @@ const Home = () => {
               mr={3}
               type="submit"
               onClick={() => handleLogin(loginuser)}
+              isDisabled={!isLoginFormValid}
             >
               Login
             </Button>
@@ -211,6 +236,7 @@ const Home = () => {
                 placeholder="Enter your username"
                 type="string"
                 name="username"
+                value={signupuser.username}
                 onChange={(e) => handleSignupInputChange(e)}
               />
             </FormControl>
@@ -222,6 +248,7 @@ const Home = () => {
                   type={show ? 'text' : 'password'}
                   placeholder="Enter your password"
                   name="password"
+                  value={signupuser.password}
                   onChange={(e) => handleSignupInputChange(e)}
                 />
                 <InputRightElement width="4.5rem">
@@ -242,8 +269,8 @@ const Home = () => {
                 <option value={'business'}>Business</option>
               </Select>
             </FormControl>
-            <FormControl isRequired mt={4}>
-              <FormLabel>Interests/Professions</FormLabel>
+            <FormControl mt={4}>
+              <FormLabel>Interests/Professions (for viewers only)</FormLabel>
               <CheckboxGroup colorScheme="green">
                 <Stack spacing={[1, 5]} direction={['column', 'row']}>
                   <Checkbox value="Students" onChange={(e) => handleChange(e)}>
@@ -263,6 +290,11 @@ const Home = () => {
                   </Checkbox>
                 </Stack>
               </CheckboxGroup>
+              {signuperror !== '' && (
+                <div style={{ color: 'red', marginTop: '2px' }}>
+                  {signuperror}
+                </div>
+              )}
             </FormControl>
           </ModalBody>
           <ModalFooter>
@@ -271,6 +303,7 @@ const Home = () => {
               mr={3}
               type="submit"
               onClick={() => handleSignup(signupuser)}
+              isDisabled={!isSignupFormValid}
             >
               Signup
             </Button>

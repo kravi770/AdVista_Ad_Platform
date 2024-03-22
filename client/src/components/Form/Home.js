@@ -48,7 +48,14 @@ const Home = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
   };
-  const handleCancel = () => {};
+  const resetSignupForm = () => {
+    setSignupUser({});
+    setCheckedValues([]);
+  };
+
+  const resetLoginForm = () => {
+    setLoginUser({});
+  };
 
   const handleLoginInputChange = (e) => {
     setLoginUser({ ...loginuser, [e.target.name]: e.target.value });
@@ -147,7 +154,14 @@ const Home = () => {
             >
               Login
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button
+              onClick={() => {
+                onClose();
+                resetLoginForm();
+              }}
+            >
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -223,7 +237,14 @@ const Home = () => {
             >
               Signup
             </Button>
-            <Button onClick={onSignupClose}>Cancel</Button>
+            <Button
+              onClick={() => {
+                onSignupClose();
+                resetSignupForm();
+              }}
+            >
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

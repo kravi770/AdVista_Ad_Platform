@@ -84,9 +84,14 @@ const Home = () => {
   };
 
   const handleLogin = async (loginuser) => {
-    // const response =
-    await login(loginuser);
-    // console.log(response);
+    const response = await login(loginuser);
+    // navigate()
+    if (response.user.type === 'viewer') {
+      navigate('/ads');
+    } else {
+      navigate('/submit-ad');
+    }
+    console.log(response);
   };
 
   const handleSignup = async (signupuser) => {
@@ -138,7 +143,7 @@ const Home = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Log in to your account</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={resetLoginForm} />
           <ModalBody pb={6}>
             <FormControl isRequired>
               <FormLabel>Username</FormLabel>
@@ -152,12 +157,6 @@ const Home = () => {
             </FormControl>
             <FormControl isRequired mt={4}>
               <FormLabel>Password</FormLabel>
-              {/* <Input
-                placeholder="Enter your password"
-                name="password"
-                type="string"
-                onChange={(e) => handleLoginInputChange(e)}
-              /> */}
               <InputGroup size="md">
                 <Input
                   pr="4.5rem"
@@ -204,7 +203,7 @@ const Home = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create your account</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={resetSignupForm} />
           <ModalBody pb={6}>
             <FormControl isRequired onSubmit={handleFormSubmit}>
               <FormLabel>Username</FormLabel>
@@ -223,7 +222,7 @@ const Home = () => {
                   type={show ? 'text' : 'password'}
                   placeholder="Enter your password"
                   name="password"
-                  onChange={(e) => handleLoginInputChange(e)}
+                  onChange={(e) => handleSignupInputChange(e)}
                 />
                 <InputRightElement width="4.5rem">
                   <Button h="1.75rem" size="sm" onClick={handleClick}>

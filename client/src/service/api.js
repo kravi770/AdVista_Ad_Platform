@@ -1,5 +1,6 @@
 import axios from 'axios';
 const URL = 'http://localhost:8000/api';
+const userURL = 'http://localhost:8000';
 
 export const register = async (user) => {
   try {
@@ -34,6 +35,38 @@ export const submitAd = async (ad) => {
       },
     });
     if (response.status !== 201) {
+      throw new Error('Network response was not ok');
+    }
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const getUser = async () => {
+  try {
+    const response = await axios.get(`${userURL}/user`, {
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`,
+      },
+    });
+    if (response.status !== 200) {
+      throw new Error('Network response was not ok');
+    }
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const getAds = async () => {
+  try {
+    const response = await axios.get(`${URL}/viewer/targeted-ads`, {
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`,
+      },
+    });
+    if (response.status !== 200) {
       throw new Error('Network response was not ok');
     }
     return response.data;

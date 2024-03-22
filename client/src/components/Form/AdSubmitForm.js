@@ -65,6 +65,7 @@ const BusinessAdForm = () => {
                 name="title"
                 value={formValues.title}
                 onChange={handleChange}
+                placeholder="Enter Ad Title"
               />
             </FormControl>
 
@@ -76,6 +77,7 @@ const BusinessAdForm = () => {
                 onChange={handleChange}
                 flex="4"
                 marginRight="2"
+                placeholder="Enter Image URL"
               />
               <Button
                 as={Link}
@@ -95,6 +97,7 @@ const BusinessAdForm = () => {
                 name="content"
                 value={formValues.content}
                 onChange={handleChange}
+                placeholder="Enter Ad Content"
               />
             </FormControl>
 

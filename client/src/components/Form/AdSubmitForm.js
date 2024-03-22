@@ -13,11 +13,12 @@ import {
   Spacer,
   Heading,
 } from '@chakra-ui/react';
+import { submitAd } from '../../service/api';
 
 const BusinessAdForm = () => {
   const [formValues, setFormValues] = useState({
     title: '',
-    imageUrl: '',
+    imageURL: '',
     content: '',
     target1: '',
     target2: '',
@@ -27,14 +28,19 @@ const BusinessAdForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
-    console.log(formValues);
+    // console.log(formValues);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formValues);
+    // console.log(formValues);
   };
 
+  const handleFormSubmit = async (ad) => {
+    // const response =
+    await submitAd(ad);
+    // console.log(response);
+  };
   return (
     <>
       <link
@@ -65,8 +71,8 @@ const BusinessAdForm = () => {
             <FormControl isRequired display="flex" alignItems="center">
               <FormLabel flex="1">Image URL</FormLabel>
               <Input
-                name="imageUrl"
-                value={formValues.imageUrl}
+                name="imageURL"
+                value={formValues.imageURL}
                 onChange={handleChange}
                 flex="4"
                 marginRight="2"
@@ -120,10 +126,22 @@ const BusinessAdForm = () => {
                 onChange={handleChange}
               />
             </FormControl>
-
-            <Button colorScheme="blue" type="submit">
-              Submit Ad
-            </Button>
+            <Flex
+              minWidth="max-content"
+              alignItems="center"
+              gap="2"
+              marginTop={3}
+            >
+              <Spacer />
+              <Button
+                colorScheme="blue"
+                type="submit"
+                onClick={() => handleFormSubmit(formValues)}
+              >
+                Submit
+              </Button>
+              <Spacer />
+            </Flex>
           </VStack>
         </Box>
       </Center>

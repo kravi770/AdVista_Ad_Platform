@@ -45,21 +45,22 @@ export const loginUser = async (req, res) => {
 
 //ad-controller
 export const submitAd = async (req, res) => {
-  const { imageURL, title ,content, target1, target2, target3 } = req.body;
+  const { imageURL, title, content, target1, target2, target3 } = req.body;
   const businessId = req.user.USER._id;
   // console.log(req.user);
-  //   console.log(
-  //     'content:',
-  //     content,
-  //     'target1:',
-  //     target1,
-  //     'target2:',
-  //     target2,
-  //     'target3:',
-  //     target3,
-  //     'businessId:',
-  //     businessId
-  //   );
+  // console.log(
+  //   'content:',
+  //   content,
+  //   'target1:',
+  //   target1,
+  //   'target2:',
+  //   target2,
+  //   'target3:',
+  //   target3,
+  //   'businessId:',
+  //   businessId
+  // );
+  // console.log(businessId);
   try {
     const newAd = new Ad({
       title,
@@ -78,7 +79,7 @@ export const submitAd = async (req, res) => {
 };
 
 export const getAds = async (req, res) => {
-  try{
+  try {
     const viewerTargets = req.user.USER.targets;
     const requiredAds = await Ad.find({
       $or: [
@@ -88,8 +89,15 @@ export const getAds = async (req, res) => {
       ],
     });
     res.status(200).json({ ads: requiredAds });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-  catch(err){
+};
+
+export const getUser = (req, res) => {
+  try {
+    return res.status(200).json({ user: req.user.USER });
+  } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };

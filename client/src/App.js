@@ -6,6 +6,7 @@ import BusinessAdForm from './components/Form/AdSubmitForm';
 import ViewerAds from './components/viewerAds';
 import BusinessAds from './components/businessAds';
 import EditAdForm from './components/Form/EditAdForm';
+import ErrorPage from './page/ErrorPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/ads" element={<ViewerAds />} />
           <Route path="/business/ads" element={<BusinessAds />} />
           <Route path="/edit/:id" element={<EditAdForm />} />
+          <Route path="/pagenotfound" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

@@ -97,7 +97,7 @@ const Home = () => {
       if (response.user.type === 'viewer') {
         navigate('/ads');
       } else {
-        navigate('/submit-ad');
+        navigate('/business/ads');
       }
     } else if (response.message) {
       setLoginError(response.message);

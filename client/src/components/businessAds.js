@@ -42,6 +42,9 @@ const BusinessAds = () => {
   const handleAddAd = () => {
     navigate('/submit-ad');
   };
+  const handleEdit = (id) => {
+    navigate(`/edit/${id}`);
+  };
   return (
     // <Flex wrap="wrap" direction="row" justify="center" gap={6}>
     <>
@@ -98,7 +101,7 @@ const BusinessAds = () => {
                     icon={<EditIcon />}
                     size="sm"
                     colorScheme="teal"
-                    onClick={() => navigate(`/edit/${ad._id}`)}
+                    onClick={() => handleEdit(ad._id)}
                   />
                 </CardFooter>
               </Flex>

@@ -5,7 +5,7 @@ import Home from './components/Form/Home';
 import BusinessAdForm from './components/Form/AdSubmitForm';
 import ViewerAds from './components/viewerAds';
 import BusinessAds from './components/businessAds';
-// import EditAdForm from './components/Form/EditAdForm';
+import EditAdForm from './components/Form/EditAdForm';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
           <Route path="/submit-ad" element={<BusinessAdForm />} />
           <Route path="/ads" element={<ViewerAds />} />
           <Route path="/business/ads" element={<BusinessAds />} />
-          {/* <Route pathe="/edit/:id" element={<EditAdForm />} /> */}
+          <Route path="/edit/:id" element={<EditAdForm />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

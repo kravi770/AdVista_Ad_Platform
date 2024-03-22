@@ -8,13 +8,7 @@ import {
   Card,
   CardBody,
   Stack,
-  Divider,
-  CardFooter,
-  ButtonGroup,
   Button,
-  WrapItem,
-  Wrap,
-  Center,
   SimpleGrid,
   Spacer,
 } from '@chakra-ui/react';

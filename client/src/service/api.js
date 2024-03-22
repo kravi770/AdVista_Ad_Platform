@@ -90,3 +90,37 @@ export const getAdsByBusinessId = async () => {
     return error.response.data;
   }
 };
+
+export const getAdById = async (id) => {
+  try {
+    // console.log(id);
+    const response = await axios.get(`${URL}/business/ad/${id}`, {
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`,
+      },
+    });
+    console.log(response.data);
+    if (response.status !== 200) {
+      throw new Error('Network response was not ok');
+    }
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const updateAd = async (ad) => {
+  try {
+    const response = await axios.put(`${URL}/business/ad/${ad._id}`, ad, {
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`,
+      },
+    });
+    if (response.status !== 200) {
+      throw new Error('Network response was not ok');
+    }
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

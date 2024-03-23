@@ -120,7 +120,7 @@ const Home = () => {
         <Spacer />
         <Box p="2">
           <Heading size="xl" fontFamily={'Kalam'}>
-            Welcome to Terabh's Ad Platform!
+            Welcome to AdVista !
           </Heading>
         </Box>
         <Spacer />

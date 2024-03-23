@@ -4,7 +4,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Select,
   VStack,
   Box,
   Center,
@@ -13,15 +12,13 @@ import {
   Spacer,
   Heading,
   ButtonGroup,
-  useToast,
 } from '@chakra-ui/react';
-import { getAdById, submitAd, updateAd } from '../../service/api';
+import { getAdById, updateAd } from '../../service/api';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const EditAdForm = () => {
   const navigate = useNavigate();
   const id = useParams();
-  const toast = useToast();
   const [formValues, setFormValues] = useState({
     title: '',
     imageURL: '',
@@ -31,14 +28,13 @@ const EditAdForm = () => {
     target3: '',
   });
   const fetchAd = async () => {
-    // console.log(id.id);
     const response = await getAdById(id.id);
     setFormValues(response.ad);
-    // console.log(response);
   };
+
   useEffect(() => {
     fetchAd();
-  }, [toast]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,15 +46,18 @@ const EditAdForm = () => {
     e.preventDefault();
     // console.log(formValues);
   };
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    navigate('/');
-  };
+
   const handleFormSubmit = async (ad) => {
     const response = await updateAd(ad);
     if (response) navigate('/business/ads');
     // console.log(response);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    navigate('/');
+  };
+
   return (
     <>
       <link

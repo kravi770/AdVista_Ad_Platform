@@ -5,7 +5,6 @@ import {
   Image,
   Text,
   IconButton,
-  useToast,
   Card,
   Stack,
   CardBody,
@@ -24,7 +23,6 @@ import { deleteAd, getAdsByBusinessId } from '../service/api';
 const BusinessAds = () => {
   const [ads, setAds] = useState([]);
   const navigate = useNavigate();
-  const toast = useToast();
 
   useEffect(() => {
     const fetchAds = async () => {
@@ -34,7 +32,7 @@ const BusinessAds = () => {
       }
     };
     fetchAds();
-  }, [toast]);
+  }, []);
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     navigate('/');
@@ -42,17 +40,14 @@ const BusinessAds = () => {
   const handleAddAd = () => {
     navigate('/submit-ad');
   };
-  const handleEdit = (id) => {
+  const handleEditAd = (id) => {
     navigate(`/edit/${id}`);
   };
 
-  const handleDelete = async (id) => {
+  const handleDeleteAd = async (id) => {
     await deleteAd(id);
     const newAds = ads.filter((ad) => ad._id !== id);
     setAds(newAds);
-    // if (response) {
-    //   console.log(response);
-    // }
   };
   return (
     // <Flex wrap="wrap" direction="row" justify="center" gap={6}>
@@ -110,14 +105,14 @@ const BusinessAds = () => {
                     icon={<EditIcon />}
                     size="sm"
                     colorScheme="teal"
-                    onClick={() => handleEdit(ad._id)}
+                    onClick={() => handleEditAd(ad._id)}
                   />
                   <IconButton
                     aria-label="Delete ad"
                     icon={<DeleteIcon />}
                     size="sm"
                     colorScheme="red"
-                    onClick={() => handleDelete(ad._id)}
+                    onClick={() => handleDeleteAd(ad._id)}
                     marginLeft={2}
                   />
                 </CardFooter>

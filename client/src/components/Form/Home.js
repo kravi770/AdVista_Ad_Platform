@@ -6,7 +6,6 @@ import {
   CheckboxGroup,
   Flex,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Heading,
   Image,
@@ -28,34 +27,51 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import home from '../../assets/home.jpg';
-import home1 from '../../assets/Designer_Home.png';
-import home2 from '../../assets/home2.jpg';
+// import home1 from '../../assets/Designer_Home.png';
+// import home2 from '../../assets/home2.jpg';
 import { login, register } from '../../service/api';
 
 const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [show, setShow] = useState(false);
-  const handleClick = () => setShow(!show);
-  const [loginerror, setLoginError] = useState('');
-  const [signuperror, setSignupError] = useState('');
   const {
     isOpen: isSignupOpen,
     onOpen: onSignupOpen,
     onClose: onSignupClose,
   } = useDisclosure();
+  const [show, setShow] = useState(false);
+  const [loginerror, setLoginError] = useState('');
+  const [signuperror, setSignupError] = useState('');
   const [signupuser, setSignupUser] = useState({});
   const [checkedValues, setCheckedValues] = useState([]);
   const [loginuser, setLoginUser] = useState({});
   const navigate = useNavigate();
-
+  useEffect(() => {
+    setSignupUser((prevSignupUser) => ({
+      ...prevSignupUser,
+      targets: checkedValues,
+    }));
+  }, [checkedValues]);
+  const isSignupFormValid =
+    signupuser.username && signupuser.password && signupuser.type;
+  const isLoginFormValid = loginuser.username && loginuser.password;
+  const handleClick = () => setShow(!show);
   const handleSignupInputChange = (e) => {
     setSignupUser({ ...signupuser, [e.target.name]: e.target.value });
     // console.log(signupuser);
   };
-  const isSignupFormValid =
-    signupuser.username && signupuser.password && signupuser.type;
-  const isLoginFormValid = loginuser.username && loginuser.password;
-
+  const handleLoginInputChange = (e) => {
+    setLoginUser({ ...loginuser, [e.target.name]: e.target.value });
+    // console.log(loginuser);
+  };
+  const handleChange = (event) => {
+    const value = event.target.value;
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      setCheckedValues([...checkedValues, value]);
+    } else {
+      setCheckedValues(checkedValues.filter((item) => item !== value));
+    }
+  };
   const handleFormSubmit = (e) => {
     e.preventDefault();
   };
@@ -70,32 +86,11 @@ const Home = () => {
     setLoginError('');
   };
 
-  const handleLoginInputChange = (e) => {
-    setLoginUser({ ...loginuser, [e.target.name]: e.target.value });
-    // console.log(loginuser);
-  };
-  useEffect(() => {
-    setSignupUser((prevSignupUser) => ({
-      ...prevSignupUser,
-      targets: checkedValues,
-    }));
-  }, [checkedValues]);
-
-  const handleChange = (event) => {
-    const value = event.target.value;
-    const isChecked = event.target.checked;
-    if (isChecked) {
-      setCheckedValues([...checkedValues, value]);
-    } else {
-      setCheckedValues(checkedValues.filter((item) => item !== value));
-    }
-  };
-
   const handleLogin = async (loginuser) => {
     const response = await login(loginuser);
     if (response.user) {
       if (response.user.type === 'viewer') {
-        navigate('/ads');
+        navigate('/viewer/ads');
       } else {
         navigate('/business/ads');
       }
@@ -106,7 +101,6 @@ const Home = () => {
   };
 
   const handleSignup = async (signupuser) => {
-    // const response =
     const response = await register(signupuser);
     if (response.user) {
       onSignupClose();

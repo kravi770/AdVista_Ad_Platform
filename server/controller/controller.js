@@ -84,6 +84,7 @@ export const submitAd = async (req, res) => {
   }
 };
 
+//for viewer
 export const getAds = async (req, res) => {
   if (req.user.USER.type !== 'viewer')
     return res.status(401).json({ message: 'Unauthorized' });
@@ -110,6 +111,7 @@ export const getUser = (req, res) => {
   }
 };
 
+//for business
 export const getAdsByBusinessId = async (req, res) => {
   if (req.user.USER.type !== 'business')
     return res.status(401).json({ message: 'Unauthorized' });

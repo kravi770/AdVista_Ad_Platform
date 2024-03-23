@@ -14,17 +14,20 @@ const ErrorPage = ({ errorMessage = 'Page Not Found', errorCode = '404' }) => {
   const bgColor = useColorModeValue('gray.50', 'gray.900');
   const textColor = useColorModeValue('gray.800', 'gray.200');
 
+  // Function to navigate back
+  const goBack = () => navigate('/'); // -1 takes you one step back in history
+
   return (
     <Center h="100vh" w="100vw" bg={bgColor}>
       <Box textAlign="center">
         <Heading as="h1" size="2xl" mb={4} color={textColor}>
-          Error {errorCode}
+          {errorCode}
         </Heading>
         <Text fontSize="xl" mb={8} color={textColor}>
           {errorMessage}
         </Text>
-        <Button colorScheme="blue" onClick={() => navigate('/')}>
-          Go Home
+        <Button colorScheme="blue" onClick={goBack}>
+          Go Back
         </Button>
       </Box>
     </Center>

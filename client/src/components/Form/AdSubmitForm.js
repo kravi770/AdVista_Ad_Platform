@@ -4,7 +4,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Select,
   VStack,
   Box,
   Center,
@@ -38,15 +37,19 @@ const BusinessAdForm = () => {
     e.preventDefault();
     // console.log(formValues);
   };
+
+  const handleFormSubmit = async (ad) => {
+    // const response =
+    await submitAd(ad);
+    navigate('/business/ads');
+    // console.log(response);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     navigate('/');
   };
-  const handleFormSubmit = async (ad) => {
-    // const response =
-    await submitAd(ad);
-    // console.log(response);
-  };
+
   return (
     <>
       <link

@@ -15,27 +15,32 @@ import {
 import { getAds, getUser } from '../service/api';
 import { useNavigate } from 'react-router-dom';
 
-const ViewerAds = ({ viewerTargets }) => {
+const ViewerAds = () => {
   const [ads, setAds] = useState([]);
   const [user, setUser] = useState({});
   const navigate = useNavigate();
   const fetchUser = async () => {
     const response = await getUser();
+    if (response.user.type !== 'viewer') {
+      navigate('/business/ads'); //Unauthorized access so redirecting to orignal page
+    }
     setUser(response.user);
+  };
+  const fetchAds = async () => {
+    const response = await getAds();
+    setAds(response.ads);
   };
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     navigate('/');
   };
 
-  const fetchAds = async () => {
-    const response = await getAds();
-    // console.log(response);
-    setAds(response.ads);
-  };
   useEffect(() => {
-    fetchUser();
-    fetchAds();
+    const initialize = async () => {
+      await fetchUser(); // Ensure fetchUser does not continuously update state in a way that would cause re-renders
+      await fetchAds(); // Same as above
+    };
+    initialize();
   }, []);
 
   return (

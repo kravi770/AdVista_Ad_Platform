@@ -82,10 +82,8 @@ Below are the HTTP routes available in the AdHub platform backend. All endpoints
 
 - **Signup:** `POST /api/user/signup`
   - Registers a new user account.
-  - Requires a body with `username`, `password`.
 - **Login:** `POST /api/user/login`
   - Authenticates a user and returns a JWT token.
-  - Requires a body with `username`, `password`.
 
 ### Business Routes
 
